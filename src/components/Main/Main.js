@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 class Main extends Component {
   render() {
     return (
-      <div>
+      <div className='bg-secondary text-light'>
         Main
       </div>
     );
