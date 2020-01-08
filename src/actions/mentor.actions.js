@@ -11,8 +11,8 @@ export const UPDATE_MENTOR_SUCCESS = 'UPDATE_MENTOR_SUCCESS';
 export const UPDATE_MENTOR_FAILURE = 'UPDATE_MENTOR_FAILURE';
 const ROOT_URL = process.env.REACT_APP_API_PATH;
 
-export const listMentor = () => (dispatch) => {
-  return axios.get(`${ROOT_URL}/mentors`)
+export const listMentor = (page) => (dispatch) => {
+  return axios.get(`${ROOT_URL}/mentors?page=${page}`)
     .then(resp => {
       return Promise.resolve(dispatch(listMentorSuccess(resp.data)))
     })

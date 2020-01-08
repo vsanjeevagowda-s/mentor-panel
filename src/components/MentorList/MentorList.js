@@ -8,7 +8,8 @@ import {
 import * as mentorActions from '../../actions/mentor.actions';
 import {
   Row,
-  Col
+  Col,
+  Table
 } from 'reactstrap';
 import Mentor from './Mentor';
 
@@ -16,19 +17,25 @@ class MentorList extends Component {
   constructor(props) {
     super(props);
     this.deleteMentor = this.deleteMentor.bind(this);
+    this.page = 1;
   }
 
   componentDidMount() {
     const { listMentor } = this.props;
-    listMentor();
+    listMentor(this.page);
   }
 
   deleteMentor(id) {
     const { deleteMentor, listMentor } = this.props;
     deleteMentor(id)
-    .then(() => {
-      listMentor();
-    })
+      .then(() => {
+        listMentor(this.page);
+      })
+  }
+
+  nextPage(page) {
+    const { listMentor } = this.props;
+    listMentor(page);
   }
 
   addMentorButton() {
@@ -43,7 +50,7 @@ class MentorList extends Component {
   }
 
   render() {
-    const { mentors, history } = this.props;
+    const { mentors, history, nextpageAvailable } = this.props;
     return (
       <Row className='border shadow rounded'>
         <Col>
@@ -51,12 +58,34 @@ class MentorList extends Component {
             <Col className='main-test-list-title'>Mentors</Col>
             {this.addMentorButton()}
           </Row>
-          {
-            mentors && mentors.length > 0 && mentors.map((mentor, index) => {
-              return <Mentor history={history}  deleteMentor={this.deleteMentor} key={mentor._id ? mentor._id : index} mentor={mentor} index={index} />
-            })
-          }
-          {mentors && mentors.length === 0 && <div className='text-center'>No Mentors</div>}
+          <Row>
+            <Col>
+              <Table>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Mobile</th>
+                    <th>About</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {
+                    mentors && mentors.length > 0 && mentors.map((mentor, index) => {
+                      return <Mentor history={history} deleteMentor={this.deleteMentor} key={mentor._id ? mentor._id : index} mentor={mentor} index={index} />
+                    })
+                  }
+                  <tr>
+                    <td colspan="6">
+                      {nextpageAvailable && <div className='text-center cursor-pointer' onClick={() => this.nextPage(this.page += 1)}>Load More...</div>}
+                      {mentors && mentors.length === 0 && <div className='text-center'>No Mentors</div>}
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
         </Col>
       </Row>
     )
@@ -66,8 +95,8 @@ class MentorList extends Component {
 
 
 const mapStateToProps = state => {
-  const { mentors } = state.mentor;
-  return { mentors };
+  const { mentors, nextpageAvailable, page } = state.mentor;
+  return { mentors, nextpageAvailable, page };
 }
 
 const mapDispatchToProps = dispatch => {

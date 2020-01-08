@@ -6,20 +6,24 @@ import {
 
 const initialState = {
   mentors: [],
-  mentor: {}
+  mentor: {},
+  nextpageAvailable: false,
+  page:1
 }
 
 const mentor = (state = initialState, action) => {
   switch (action.type) {
     case LIST_MENTOR_SUCCESS:
-      return {
-        ...state,
-        mentors: action.resp.mentors
-      }
+      const newMentorsArr = JSON.parse(JSON.stringify(state.mentors))
+        return {
+          ...state,
+          mentors: newMentorsArr.concat(action.resp.mentors),
+          nextpageAvailable: true
+        }
     case LIST_MENTOR_FAILURE:
       return {
         ...state,
-        mentors: []
+        nextpageAvailable: false
       }
     case GET_MENTOR_SUCCESS:
       return {

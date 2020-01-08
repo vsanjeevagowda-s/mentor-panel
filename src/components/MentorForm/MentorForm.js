@@ -58,7 +58,6 @@ class MentorForm extends Component {
       })
     }
     if(type === 'update'){
-      debugger
       updateMentor({ ...this.state }, id)
       .then(() => {
         return history.push('/');
