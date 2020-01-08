@@ -1,7 +1,12 @@
-import { LIST_MENTOR_SUCCESS, LIST_MENTOR_FAILURE } from '../actions/mentor.actions';
+import { 
+  LIST_MENTOR_SUCCESS, 
+  LIST_MENTOR_FAILURE,
+  GET_MENTOR_SUCCESS,
+  GET_MENTOR_FAILURE } from '../actions/mentor.actions';
 
 const initialState = {
   mentors: [],
+  mentor: {}
 }
 
 const mentor = (state = initialState, action) => {
@@ -15,6 +20,16 @@ const mentor = (state = initialState, action) => {
       return {
         ...state,
         mentors: []
+      }
+    case GET_MENTOR_SUCCESS:
+      return {
+        ...state,
+        mentor: action.resp.mentor
+      }
+    case GET_MENTOR_FAILURE:
+      return {
+        ...state,
+        mentor: {}
       }
     default:
       return state

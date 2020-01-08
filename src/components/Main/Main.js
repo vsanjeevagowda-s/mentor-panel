@@ -10,6 +10,7 @@ class Main extends Component {
       <Switch>
         <Route exact path="/" component={Dashboard} />
         <Route exact path="/mentor/create" component={MentorForm} />
+        <Route exact path="/mentor/:id" component={MentorForm} />
       </Switch>
     );
   }

@@ -25,8 +25,17 @@ class MentorForm extends Component {
     }
   }
 
+  componentDidMount(){
+    const { getMentor, match: { params : { id } } } = this.props;
+    const { type } = this.props.location.state;
+    if(type === 'update'){
+      getMentor(id)
+    }
+  }
+
   componentWillReceiveProps(nextProps){
-    const {fullName, email, mobile, about  } =  nextProps;
+    console.log('nextProps', nextProps);
+    const {full_name:fullName, email, mobile, about  } =  nextProps.mentor;
     this.setState({
       fullName, email, mobile, about 
     })
@@ -41,6 +50,7 @@ class MentorForm extends Component {
   submit(){
     const { type } = this.props.location.state;
     const { createMentor, updateMentor, history }  = this.props;
+    const { match: { params : { id } } } = this.props;
     if(type === 'new'){
       createMentor({ ...this.state })
       .then(() => {
@@ -48,7 +58,8 @@ class MentorForm extends Component {
       })
     }
     if(type === 'update'){
-      updateMentor({ ...this.state })
+      debugger
+      updateMentor({ ...this.state }, id)
       .then(() => {
         return history.push('/');
       })
@@ -58,6 +69,7 @@ class MentorForm extends Component {
   render() {
     const { formTitle } = this.props.location.state;
     console.log('this.state =>', this.state)
+    const { fullName, email, mobile, about } = this.state;
     return (
       <Row>
         <Col md={{ size: 6, offset: 3 }} className='border shadow rounded'>
@@ -66,19 +78,19 @@ class MentorForm extends Component {
             <Form>
               <FormGroup>
                 <Label for="fullName">Full Name</Label>
-                <Input type="text" name="fullName" placeholder="Enter the name" onChange={e => this.handleChange(e)} />
+                <Input value={fullName} type="text" name="fullName" placeholder="Enter the name" onChange={e => this.handleChange(e)} />
               </FormGroup>
               <FormGroup>
               <Label for="email">Email</Label>
-                <Input type="email" name="email" placeholder="Enter the email" onChange={e => this.handleChange(e)} />
+                <Input value={email} type="email" name="email" placeholder="Enter the email" onChange={e => this.handleChange(e)} />
               </FormGroup>
               <FormGroup>
               <Label for="Title">Mobile No.</Label>
-                <Input type="number" name="mobile" onChange={e => this.handleChange(e)} />
+                <Input value={mobile} type="number" name="mobile" onChange={e => this.handleChange(e)} />
               </FormGroup>
               <FormGroup>
                 <Label for="about">About</Label>
-                <Input type="textarea" name="about" placeholder="About mentor..." onChange={e => this.handleChange(e)} />
+                <Input value={about} type="textarea" name="about" placeholder="About mentor..." onChange={e => this.handleChange(e)} />
               </FormGroup>
             </Form>
              <Button color="secondary" size="sm" block className='py-2' onClick={() => this.submit()}>SUBMIT</Button>
@@ -89,8 +101,13 @@ class MentorForm extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  const { mentor } = state.mentor
+  return { mentor };
+}
+
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ ...mentorActions }, dispatch)
 };
 
-export default withRouter(connect(null, mapDispatchToProps)(MentorForm));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MentorForm));

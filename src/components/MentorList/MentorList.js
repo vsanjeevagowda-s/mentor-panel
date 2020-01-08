@@ -43,7 +43,7 @@ class MentorList extends Component {
   }
 
   render() {
-    const { mentors } = this.props;
+    const { mentors, history } = this.props;
     return (
       <Row className='border shadow rounded'>
         <Col>
@@ -53,7 +53,7 @@ class MentorList extends Component {
           </Row>
           {
             mentors && mentors.length > 0 && mentors.map((mentor, index) => {
-              return <Mentor  deleteMentor={this.deleteMentor} key={mentor._id ? mentor._id : index} mentor={mentor} index={index} />
+              return <Mentor history={history}  deleteMentor={this.deleteMentor} key={mentor._id ? mentor._id : index} mentor={mentor} index={index} />
             })
           }
           {mentors && mentors.length === 0 && <div className='text-center'>No Mentors</div>}

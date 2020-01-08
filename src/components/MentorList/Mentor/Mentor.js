@@ -3,12 +3,15 @@ import {
   Row,
   Col
 } from 'reactstrap';
+import {
+  Link
+} from 'react-router-dom';
 
 const editMentor = () => {
 
 }
 
-const Mentor = ({ mentor, index, deleteMentor }) => {
+const Mentor = ({ mentor, index, deleteMentor, history }) => {
   const { full_name, email, mobile, about, _id } = mentor;
   return (
     <Row className='py-2'>
@@ -19,8 +22,13 @@ const Mentor = ({ mentor, index, deleteMentor }) => {
           <span>{email}</span>
           <span>{mobile}</span>
           <span>{about}</span>
-          <span onClick={() => editMentor()}>edit</span>
-          <span onClick={ () => deleteMentor(_id) }>delete</span>
+          <span className='cursor-pointer'><Link to={{
+            pathname: `/mentor/${_id}`, state: {
+              type: 'update',
+              formTitle: 'Update'
+            }
+          }} ><i className="fa fa-pencil"></i></Link></span>
+          <span className='cursor-pointer' ><i className="fa fa-trash cursor-pointer"></i></span>
         </div>
       </Col>
     </Row>
