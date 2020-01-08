@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
+import { Switch, Route } from "react-router-dom";
+import Dashboard from '../Dashboard';
+import MentorForm from '../MentorForm';
 
 class Main extends Component {
   render() {
     return (
-      <div className='bg-secondary text-light'>
-        Main
-      </div>
+      <Switch>
+        <Route exact path="/" component={Dashboard} />
+        <Route exact path="/mentor/create" component={MentorForm} />
+      </Switch>
     );
   }
 }
 
-const mapStateToProps = state =>{
-  return state;
-}
+// const mapStateToProps = state =>{
+//   return state;
+// }
 
-export default connect(mapStateToProps, {})(Main);
+// export default connect(mapStateToProps, {})(Main);
+
+export default Main;

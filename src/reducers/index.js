@@ -1,4 +1,11 @@
 import { combineReducers } from 'redux';
+import mentor from './mentor.reducers';
 
-export default combineReducers({
-});
+const reducerFuns = () => {
+  
+  return {
+    mentor,
+  }
+}
+
+export default combineReducers(reducerFuns());
