@@ -8,7 +8,7 @@ const initialState = {
   mentors: [],
   mentor: {},
   nextpageAvailable: false,
-  page:1
+  pageNumber:1
 }
 
 const mentor = (state = initialState, action) => {
@@ -18,7 +18,8 @@ const mentor = (state = initialState, action) => {
         return {
           ...state,
           mentors: newMentorsArr.concat(action.resp.mentors),
-          nextpageAvailable: true
+          nextpageAvailable: ((action.resp.pages - action.resp.page) <= 0) ? false : true,
+          pageNumber: action.resp.page
         }
     case LIST_MENTOR_FAILURE:
       return {

@@ -17,25 +17,28 @@ class MentorList extends Component {
   constructor(props) {
     super(props);
     this.deleteMentor = this.deleteMentor.bind(this);
-    this.page = 1;
   }
 
   componentDidMount() {
-    const { listMentor } = this.props;
-    listMentor(this.page);
+    const { listMentor, pageNumber } = this.props;
+    listMentor(pageNumber);
+  }
+
+  componentWillUnmount(){
+    
   }
 
   deleteMentor(id) {
-    const { deleteMentor, listMentor } = this.props;
+    const { deleteMentor, listMentor, pageNumber } = this.props;
     deleteMentor(id)
       .then(() => {
-        listMentor(this.page);
+        listMentor(pageNumber);
       })
   }
 
-  nextPage(page) {
+  nextPage(pageNumber) {
     const { listMentor } = this.props;
-    listMentor(page);
+    listMentor(pageNumber);
   }
 
   addMentorButton() {
@@ -50,7 +53,7 @@ class MentorList extends Component {
   }
 
   render() {
-    const { mentors, history, nextpageAvailable } = this.props;
+    const { mentors, history, nextpageAvailable, pageNumber } = this.props;
     return (
       <Row className='border shadow rounded'>
         <Col>
@@ -78,7 +81,7 @@ class MentorList extends Component {
                   }
                   <tr>
                     <td colspan="6">
-                      {nextpageAvailable && <div className='text-center cursor-pointer' onClick={() => this.nextPage(this.page += 1)}>Load More...</div>}
+                      {nextpageAvailable && <div className='text-center cursor-pointer' onClick={() => this.nextPage( pageNumber+1 )}>Load More...</div>}
                       {mentors && mentors.length === 0 && <div className='text-center'>No Mentors</div>}
                     </td>
                   </tr>
@@ -95,8 +98,8 @@ class MentorList extends Component {
 
 
 const mapStateToProps = state => {
-  const { mentors, nextpageAvailable, page } = state.mentor;
-  return { mentors, nextpageAvailable, page };
+  const { mentors, nextpageAvailable, pageNumber } = state.mentor;
+  return { mentors, nextpageAvailable, pageNumber };
 }
 
 const mapDispatchToProps = dispatch => {
