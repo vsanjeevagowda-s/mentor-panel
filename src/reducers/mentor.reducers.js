@@ -3,7 +3,8 @@ import {
   LIST_MENTOR_FAILURE,
   GET_MENTOR_SUCCESS,
   GET_MENTOR_FAILURE,
-  RESET_MENTOR_LIST } from '../actions/mentor.actions';
+  RESET_MENTOR_LIST,
+  DELETE_MENTOR_SUCCESS } from '../actions/mentor.actions';
 
 const initialState = {
   mentors: [],
@@ -11,6 +12,19 @@ const initialState = {
   nextpageAvailable: false,
   pageNumber:1
 }
+
+const deleteMentorSuccess = (state, action) => {
+  const newMentorsArr = JSON.parse(JSON.stringify(state.mentors));
+  const newArr = newMentorsArr.filter(item => {
+    if(item._id !== action.resp.id){
+      return item
+    }
+  })
+  return {
+    ...state,
+    mentors: newArr
+  }
+};
 
 const mentor = (state = initialState, action) => {
   switch (action.type) {
@@ -42,6 +56,8 @@ const mentor = (state = initialState, action) => {
         ...state,
         ...initialState,
       }
+    case DELETE_MENTOR_SUCCESS:
+      return deleteMentorSuccess(state, action)
     default:
       return state
   }

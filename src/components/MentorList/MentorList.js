@@ -30,11 +30,8 @@ class MentorList extends Component {
   }
 
   deleteMentor(id) {
-    const { deleteMentor, listMentor, pageNumber } = this.props;
-    deleteMentor(id)
-      .then(() => {
-        listMentor(pageNumber);
-      })
+    const { deleteMentor } = this.props;
+    deleteMentor(id);
   }
 
   nextPage(pageNumber) {

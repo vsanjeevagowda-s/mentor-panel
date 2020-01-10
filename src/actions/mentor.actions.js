@@ -63,7 +63,7 @@ const createMentorFailure = (error) => {
 export const deleteMentor = (id) => (dispatch) => { 
   return axios.delete(`${ROOT_URL}/mentors/${id}`)
     .then(resp => {
-      return Promise.resolve(dispatch(deleteMentorSuccess(resp)))
+      return Promise.resolve(dispatch(deleteMentorSuccess(resp.data)))
     })
     .catch(error => {
       return Promise.reject(dispatch(deleteMentorFailure(error)));
