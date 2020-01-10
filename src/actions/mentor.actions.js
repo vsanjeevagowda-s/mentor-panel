@@ -10,6 +10,7 @@ export const GET_MENTOR_FAILURE = 'GET_MENTOR_FAILURE';
 export const UPDATE_MENTOR_SUCCESS = 'UPDATE_MENTOR_SUCCESS';
 export const UPDATE_MENTOR_FAILURE = 'UPDATE_MENTOR_FAILURE';
 const ROOT_URL = process.env.REACT_APP_API_PATH;
+export const RESET_MENTOR_LIST = 'RESET_MENTOR_LIST';
 
 export const listMentor = (page) => (dispatch) => {
   return axios.get(`${ROOT_URL}/mentors?page=`+page)
@@ -132,4 +133,9 @@ const updateMentorFailure = (error) => {
   }
 };
 
+export const resetMentorList = () => {
+  return {
+    type: RESET_MENTOR_LIST
+  }
+}
 

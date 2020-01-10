@@ -25,7 +25,8 @@ class MentorList extends Component {
   }
 
   componentWillUnmount(){
-    
+    const { resetMentorList } = this.props;
+    resetMentorList()
   }
 
   deleteMentor(id) {
